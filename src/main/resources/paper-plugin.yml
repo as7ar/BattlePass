@@ -1,0 +1,6 @@
+name: BattlePass
+version: ${version}
+main: kr.astar.battlepass.BattlePass
+api-version: '1.21'
+authors: [ AS7AR ]
+website: https://grassproject.github.io
