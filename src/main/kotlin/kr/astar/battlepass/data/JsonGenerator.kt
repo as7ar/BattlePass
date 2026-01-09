@@ -1,43 +1,60 @@
 package kr.astar.battlepass.data
 
-@DslMarker
-annotation class JsonDsl
+import com.google.gson.*
 
-@JsonDsl
-class JsonObject {
-    private val map = linkedMapOf<String, Any?>()
+@DslMarker
+annotation class GsonDsl
+
+@GsonDsl
+class JsonObjectDsl {
+    val obj = JsonObject()
 
     infix fun String.to(value: Any?) {
-        map[this] = value
+        obj.add(this, value.toJsonElement())
     }
 
-    fun obj(key: String, block: JsonObject.() -> Unit) {
-        map[key] = JsonObject().apply(block).build()
+    fun obj(key: String, block: JsonObjectDsl.() -> Unit) {
+        obj.add(key, JsonObjectDsl().apply(block).obj)
     }
 
-    fun array(key: String, vararg values: Any?) {
-        map[key] = values.toList()
+    fun arr(key: String, block: JsonArrayDsl.() -> Unit) {
+        obj.add(key, JsonArrayDsl().apply(block).arr)
     }
-
-    fun build(): Map<String, Any?> = map
 }
 
-fun json(block: JsonObject.() -> Unit): Map<String, Any?> {
-    return JsonObject().apply(block).build()
+@GsonDsl
+class JsonArrayDsl {
+    val arr = JsonArray()
+
+    operator fun Any?.unaryPlus() {
+        arr.add(this.toJsonElement())
+    }
 }
 
-fun Any?.toJson(): String = when (this) {
-    null -> "null"
-    is String -> "\"$this\""
-    is Number, is Boolean -> toString()
-    is Map<*, *> -> entries.joinToString(
-        prefix = "{",
-        postfix = "}"
-    ) { "\"${it.key}\":${it.value.toJson()}" }
-    is Iterable<*> -> joinToString(
-        prefix = "[",
-        postfix = "]"
-    ) { it.toJson() }
-    else -> "\"$this\""
+fun json(block: JsonObjectDsl.() -> Unit): JsonObject {
+    return JsonObjectDsl().apply(block).obj
 }
 
+
+fun Any?.toJsonElement(): JsonElement = when (this) {
+    null -> JsonNull.INSTANCE
+    is JsonElement -> this
+    is String -> JsonPrimitive(this)
+    is Number -> JsonPrimitive(this)
+    is Boolean -> JsonPrimitive(this)
+    else -> JsonPrimitive(toString())
+}
+
+// TEST/EXAMPLE
+private val json = json {
+    "test" to "test1"
+    "enabled" to true
+    arr("array!") {
+        + "first"
+        + "second"
+    }
+    obj("anyObject") {
+        "oooo" to "aa"
+        "bb" to "az"
+    }
+}
