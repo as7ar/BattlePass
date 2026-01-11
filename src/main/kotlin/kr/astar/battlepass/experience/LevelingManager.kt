@@ -75,7 +75,7 @@ object LevelingManager {
     fun expSlotGenerator(offlinePlayer: OfflinePlayer, page: Int): Array<Int> {
         val np= numberOfPassPageGenerator(offlinePlayer)
         if (page<np) return rewardSlotArray
-
+        if (page>np) return arrayOf()
         //todo: complete
         return rewardSlotArray
     }
