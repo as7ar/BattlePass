@@ -4,3 +4,23 @@ main: kr.astar.battlepass.BattlePass
 api-version: '1.21'
 authors: [ AS7AR ]
 website: https://grassproject.github.io
+
+permissions:
+  astar.pass.*:
+    default: op
+    children:
+      astar.pass.command:
+        default: op
+      astar.pass.premium:
+        default: op
+      astar.pass.admin:
+        default: op
+
+dependencies:
+  server:
+    ItemsAdder:
+      load: BEFORE
+      required: false
+    Nexo:
+      load: BEFORE
+      required: false

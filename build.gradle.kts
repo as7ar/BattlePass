@@ -11,11 +11,16 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/") {
         name = "papermc-repo"
     }
+    maven("https://repo.nexomc.com/releases")
+    maven("https://maven.devs.beer/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    compileOnly("com.nexomc:nexo:${rootProject.properties["nexo_version"]}") { exclude("*") }
+    compileOnly("dev.lone:api-itemsadder:${rootProject.properties["itemsadder_version"]}")
 }
 
 val targetJavaVersion = 21

@@ -1,2 +1,18 @@
+commands:
+  name: pass
+  aliases:
+    - 패스
+    - battlepass
+    - 배틀패스
+  description: 배틀패스 기본 명령어
+
+pass:
+  leveling-exp: 100
+  max-level: 18
+
 gui:
-  title: ':offset_-16::welcome_menu:'
+  title: '<glyph:bitmap><glyph:battle_pass>'
+  premium-title: '<glyph:bitmap><glyph:battle_pass_premium>'
+
+items:
+  type: nexo
