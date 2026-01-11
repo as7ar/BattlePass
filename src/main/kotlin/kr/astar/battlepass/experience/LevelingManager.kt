@@ -4,10 +4,8 @@ import kr.astar.battlepass.BattlePass
 import org.bukkit.OfflinePlayer
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
-import kotlin.math.abs
-import kotlin.math.max
 
-object ExperienceManager {
+object LevelingManager {
     private val plugin = BattlePass.plugin
     private val configData = BattlePass.configData
 
@@ -41,8 +39,13 @@ object ExperienceManager {
 
         val totalExp = lv*levelingExp+exp+amount
 
-        val finalExp = totalExp % levelingExp
-        val finalLv = totalExp / levelingExp
+        var finalExp = totalExp % levelingExp
+        var finalLv = totalExp / levelingExp
+
+        if (finalLv>=maxLv) {
+            finalLv = maxLv
+            finalExp=0
+        }
 
         save(offlinePlayer, finalExp, finalLv)
     }
@@ -56,6 +59,7 @@ object ExperienceManager {
 
         val totalExp = lv*levelingExp+exp
         val afterTotalExp = totalExp - amount
+
         if (afterTotalExp<=0) {
             save(offlinePlayer, 0, 0)
             return
@@ -65,5 +69,22 @@ object ExperienceManager {
         finalLv = totalExp / levelingExp
 
         save(offlinePlayer, finalExp, finalLv)
+    }
+
+    private val rewardSlotArray = arrayOf(1, 3, 5, 7, 18, 20, 22, 24, 26) // total: 9
+    fun expSlotGenerator(offlinePlayer: OfflinePlayer, page: Int): Array<Int> {
+        val np= numberOfPassPageGenerator(offlinePlayer)
+        if (page<np) return rewardSlotArray
+
+        //todo: complete
+        return rewardSlotArray
+    }
+
+    fun numberOfPassPageGenerator(offlinePlayer: OfflinePlayer): Int {
+        val lv=getLv(offlinePlayer)
+        var page=0
+        page+=lv/9
+        if (lv%9!=0) page+=1
+        return page
     }
 }

@@ -17,7 +17,6 @@ class PassGUI: InventoryHolder {
         configData.gui.title.toMiniMessage()
     )
 
-    private val rewardSlotArray = arrayOf(1, 3, 5, 7, 18, 20, 22, 24, 26)
     private val expSlotArray = (9..17).toList().toTypedArray()
     private val claimSlot=arrayOf(34, 35)
     private val previousSlot= 36
