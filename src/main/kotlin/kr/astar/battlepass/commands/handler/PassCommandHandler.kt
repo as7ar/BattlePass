@@ -2,9 +2,11 @@ package kr.astar.battlepass.commands.handler
 
 import kr.astar.battlepass.BattlePass
 import kr.astar.battlepass.data.PassType
+import kr.astar.battlepass.data.UserData
 import kr.astar.battlepass.experience.LevelingManager
 import kr.astar.battlepass.gui.PassGUI
 import kr.astar.battlepass.gui.PremiumPassGUI
+import kr.astar.battlepass.gui.RewardGUI
 import kr.astar.battlepass.items.ItemManager
 import kr.astar.battlepass.utils.toMiniMessage
 import net.kyori.adventure.text.Component
@@ -16,16 +18,16 @@ class PassCommandHandler {
     private val configData = BattlePass.configData
 
     private val expSlotArray = (9..17).toList().toTypedArray()
-    fun openPass(player: Player, type: PassType) {
+    fun openPass(player: Player, type: PassType= PassType.DEFAULT) {
         val info = ItemManager.items.getInfo().apply {
             val meta = this?.itemMeta ?: return@apply
             meta.displayName("<bold><aqua>정보".toMiniMessage())
             val lore = meta.lore() ?: mutableListOf<Component>()
             lore.add("<gold>플레이어: <white>${player.name} ( <aqua>Lv.<white>${
-                LevelingManager.getLv(player)
+                LevelingManager.getLv(player, type)
             } )".toMiniMessage())
             lore.add("<yellow>다음 레벨까지 필요 경험치: <gold> ${
-                configData.pass.levelingExp-LevelingManager.getExp(player)
+                configData.pass.levelingExp-LevelingManager.getExp(player, type)
             }".toMiniMessage())
             meta.lore(lore)
             this.itemMeta = meta
@@ -34,10 +36,33 @@ class PassCommandHandler {
         val inv = when (type) {
             PassType.DEFAULT-> PassGUI().inventory
             PassType.PREMIUM-> PremiumPassGUI().inventory
+            else-> RewardGUI().inventory
         }
 
+        val numberOfExpSlot = LevelingManager.getLv(player, type)%9
+        val expSlots = expSlotArray.take(numberOfExpSlot)
+
+        val rewardSlotArray = arrayOf(18, 1, 20, 3, 22, 5, 24, 7, 26)
+        val rewardSlots = LevelingManager.rewardSlotGenerator(
+            player,
+            LevelingManager.numberOfPassPageGenerator(player, type),
+            type
+        )
+
+        val claimed= UserData(player.uniqueId).config.getInt("${player.uniqueId}.claimed-lv")
+
         player.openInventory(inv.apply {
-            setItem(40, info)
+            setItem(40, info) // info
+            expSlots.forEach { // exp
+                setItem(it, when (it) {
+                    9 -> ItemManager.items.getExpLeft()
+                    17 -> ItemManager.items.getExpRight()
+                    else -> ItemManager.items.getExpMiddle()
+                })
+            }
+            rewardSlotArray.forEach { setItem(it, ItemManager.items.getLocked()) }
+            rewardSlots.forEach { setItem(it, ItemManager.items.getUnlocked()) }
+            rewardSlotArray.take(claimed%9).forEach { setItem(it, ItemManager.items.getClaimed()) }
         })
     }
 
@@ -53,14 +78,14 @@ class PassCommandHandler {
             "추가" -> {
                 LevelingManager.addExp(target, amount)
                 sender.sendMessage(
-                    "플레이어 <green>${target.name}에게 ${amount}만큼의 경험치를 지급했습니다.".toMiniMessage()
+                    "플레이어 <green>${target.name}<white>에게 <aqua>${amount}<white>만큼의 경험치를 지급했습니다.".toMiniMessage()
                 )
             }
 
             "제거" -> {
                 LevelingManager.takeExp(target, amount)
                 sender.sendMessage(
-                    "플레이어 <red>${target.name}에게서 ${amount}만큼의 경험치를 없앴습니다.".toMiniMessage()
+                    "플레이어 <red>${target.name}<white>에게서 <aqua>${amount}<white>만큼의 경험치를 없앴습니다.".toMiniMessage()
                 )
             }
 
@@ -68,7 +93,7 @@ class PassCommandHandler {
                 LevelingManager.takeExp(target, LevelingManager.getExp(target))
                 LevelingManager.addExp(target, amount)
                 sender.sendMessage(
-                    "플레이어 <yellow>${target.name}의 경험치를 $amount 로 설정했습니다.".toMiniMessage()
+                    "플레이어 <yellow>${target.name}<white>의 경험치를 <aqua>${amount}<white> 로 설정했습니다.".toMiniMessage()
                 )
             }
         }

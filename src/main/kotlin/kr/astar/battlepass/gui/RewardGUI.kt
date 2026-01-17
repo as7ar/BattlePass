@@ -20,7 +20,7 @@ class RewardGUI : InventoryHolder {
         9 * 6,
         configData.gui.rewardTitle.toMiniMessage()
     )
-    private val file = File(plugin.dataFolder, "reward.json")
+    val file = File(plugin.dataFolder, "reward.json")
     private val gson = Gson()
 
     override fun getInventory(): Inventory {

@@ -1,6 +1,7 @@
 package kr.astar.battlepass.experience
 
 import kr.astar.battlepass.BattlePass
+import kr.astar.battlepass.data.PassType
 import org.bukkit.OfflinePlayer
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -22,20 +23,20 @@ object LevelingManager {
     private val maxLv = configData.pass.maxLevel
     private val levelingExp = configData.pass.levelingExp
 
-    fun getExp(offlinePlayer: OfflinePlayer) = expYaml.getInt("${offlinePlayer.uniqueId}.exp")
-    fun getLv(offlinePlayer: OfflinePlayer) = expYaml.getInt("${offlinePlayer.uniqueId}.lv")
+    fun getExp(offlinePlayer: OfflinePlayer, type: PassType= PassType.DEFAULT) = expYaml.getInt("${offlinePlayer.uniqueId}.${type.name.lowercase()}.exp")
+    fun getLv(offlinePlayer: OfflinePlayer, type: PassType= PassType.DEFAULT) = expYaml.getInt("${offlinePlayer.uniqueId}.${type.name.lowercase()}.lv")
 
-    private fun save(offlinePlayer: OfflinePlayer, exp: Int, lv: Int) {
+    private fun save(offlinePlayer: OfflinePlayer, exp: Int, lv: Int, type: PassType= PassType.DEFAULT) {
         val yaml = expYaml
-        val base = offlinePlayer.uniqueId.toString()
+        val base = "${offlinePlayer.uniqueId}.${type.name.lowercase()}"
         yaml.set("$base.exp", exp)
         yaml.set("$base.lv", lv)
         yaml.save(expFile)
     }
 
-    fun addExp(offlinePlayer: OfflinePlayer, amount: Int) {
-        val exp= getExp(offlinePlayer)
-        val lv = getLv(offlinePlayer)
+    fun addExp(offlinePlayer: OfflinePlayer, amount: Int, type: PassType= PassType.DEFAULT) {
+        val exp= getExp(offlinePlayer, type)
+        val lv = getLv(offlinePlayer, type)
 
         val totalExp = lv*levelingExp+exp+amount
 
@@ -47,12 +48,12 @@ object LevelingManager {
             finalExp=0
         }
 
-        save(offlinePlayer, finalExp, finalLv)
+        save(offlinePlayer, finalExp, finalLv, type)
     }
 
-    fun takeExp(offlinePlayer: OfflinePlayer, amount: Int) {
-        val exp= getExp(offlinePlayer)
-        val lv = getLv(offlinePlayer)
+    fun takeExp(offlinePlayer: OfflinePlayer, amount: Int, type: PassType= PassType.DEFAULT) {
+        val exp= getExp(offlinePlayer, type)
+        val lv = getLv(offlinePlayer, type)
 
         var finalExp=0
         var finalLv=0
@@ -61,33 +62,33 @@ object LevelingManager {
         val afterTotalExp = totalExp - amount
 
         if (afterTotalExp<=0) {
-            save(offlinePlayer, 0, 0)
+            save(offlinePlayer, 0, 0, type)
             return
         }
 
         finalExp = totalExp % levelingExp
         finalLv = totalExp / levelingExp
 
-        save(offlinePlayer, finalExp, finalLv)
+        save(offlinePlayer, finalExp, finalLv, type)
     }
 
-    private val rewardSlotArray = arrayOf(1, 3, 5, 7, 18, 20, 22, 24, 26) // total: 9
-    fun expSlotGenerator(offlinePlayer: OfflinePlayer, page: Int): Array<Int> {
-        val np= numberOfPassPageGenerator(offlinePlayer)
+    private val rewardSlotArray = arrayOf(18, 1, 20, 3, 22, 5, 24, 7, 26) // total: 9
+    fun rewardSlotGenerator(offlinePlayer: OfflinePlayer, page: Int, type: PassType= PassType.DEFAULT): Array<Int> {
+        val np= numberOfPassPageGenerator(offlinePlayer, type)
         if (page<np) return rewardSlotArray
         if (page>np) return arrayOf()
 
-        val lvSlots=getLv(offlinePlayer) % rewardSlotArray.size
+        val lvSlots=getLv(offlinePlayer, type) % rewardSlotArray.size
         val slotArray= rewardSlotArray.take(lvSlots).toTypedArray()
 
         return slotArray
     }
 
-    fun numberOfPassPageGenerator(offlinePlayer: OfflinePlayer): Int {
-        val lv=getLv(offlinePlayer)
-        var page = 0
-        page += lv / rewardSlotArray.size
+    fun numberOfPassPageGenerator(offlinePlayer: OfflinePlayer, type: PassType= PassType.DEFAULT): Int {
+        val lv=getLv(offlinePlayer, type)
+        var page = lv / rewardSlotArray.size
         if (lv%rewardSlotArray.size != 0) page+=1
+        if (page==0) return 1
         return page
     }
 }

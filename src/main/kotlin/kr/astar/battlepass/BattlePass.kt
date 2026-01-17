@@ -17,7 +17,7 @@ class BattlePass : JavaPlugin() {
     override fun onLoad() {
         plugin = this
 
-        saveResource("reward.json", true)
+        saveResource("reward.json", false)
         saveDefaultConfig()
         reloadConfigData()
     }

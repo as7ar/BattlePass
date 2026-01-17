@@ -35,7 +35,7 @@ object ItemManager {
             }
             ItemType.NEXO -> {
                 if (!checkItemPlugin(type)) return null
-                NexoItems.itemFromId(id)?.also { println(it.type) }?.build()
+                NexoItems.itemFromId(id)/*?.also { println(it.type) }*/?.build()
             }
         }
     }
@@ -48,14 +48,6 @@ object ItemManager {
         return ItemStack.deserializeBytes(Base64Coder.decode(base64))
     }
 
-    fun encodeItems(items: List<ItemStack>): String {
-        return String(ItemStack.serializeItemsAsBytes(items), Charsets.UTF_8)
-    }
-
-    fun decodeItems(base64: String): List<ItemStack> {
-        return ItemStack.deserializeItemsFromBytes(Base64Coder.decode(base64)).toList()
-    }
-
     object items {
         private val type = ItemType.valueOf(configData.items.type.uppercase())
         fun getPreviousArrow() = create("previous", type)
@@ -66,5 +58,6 @@ object ItemManager {
         fun getLocked() = create("locked", type)
         fun getUnlocked() = create("unlocked", type)
         fun getInfo() = create("info_pass", type)
+        fun getClaimed() = create("reward_claimed", type)
     }
 }
