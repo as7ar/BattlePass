@@ -13,7 +13,8 @@ data class ConfigData(
 
 data class GUIData(
     val title: String,
-    val premiumTitle: String
+    val premiumTitle: String,
+    val rewardTitle: String
 )
 
 data class ItemsData(
@@ -82,10 +83,10 @@ class ConfigBuilder {
 class GUIBuilder {
     var title: String = ""
     var premiumTitle: String = ""
+    var rewardTitle: String = ""
 
     fun build(): GUIData {
-        if (title.isBlank()) error("gui.title is blank")
-        return GUIData(title, premiumTitle)
+        return GUIData(title, premiumTitle, rewardTitle)
     }
 }
 

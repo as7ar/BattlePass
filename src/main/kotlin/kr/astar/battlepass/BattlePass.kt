@@ -16,6 +16,8 @@ class BattlePass : JavaPlugin() {
 
     override fun onLoad() {
         plugin = this
+
+        saveResource("reward.json", true)
         saveDefaultConfig()
         reloadConfigData()
     }
@@ -34,6 +36,7 @@ class BattlePass : JavaPlugin() {
             gui {
                 title = config.getString("gui.title") ?: ""
                 premiumTitle = config.getString("gui.premium-title") ?: ""
+                rewardTitle = config.getString("gui.reward-title") ?: ""
             }
             items {
                 type = config.getString("items.type") ?: ""

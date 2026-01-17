@@ -1,6 +1,7 @@
 package kr.astar.battlepass.gui
 
 import kr.astar.battlepass.BattlePass
+import kr.astar.battlepass.items.ItemManager
 import kr.astar.battlepass.utils.toMiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -17,12 +18,13 @@ class PremiumPassGUI: InventoryHolder {
         configData.gui.premiumTitle.toMiniMessage()
     )
 
-    private val expSlotArray = (9..17).toList().toTypedArray()
-    private val claimSlot=arrayOf(34, 35)
     private val previousSlot= 36
     private val nextSlot= 44
 
     override fun getInventory(): Inventory {
+
+        inventory.setItem(previousSlot, ItemManager.items.getPreviousArrow())
+        inventory.setItem(nextSlot, ItemManager.items.getNextArrow())
         return inventory
     }
 }

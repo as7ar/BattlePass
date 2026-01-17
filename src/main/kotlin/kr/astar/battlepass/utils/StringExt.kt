@@ -33,5 +33,4 @@ fun String.toMiniMessage(): Component =
             .replace("&r", "<reset>")
     )
 
-fun String.toComponent(): Component =
-    Component.text(this)
+fun String.toComponent(): Component = this.toMiniMessage()

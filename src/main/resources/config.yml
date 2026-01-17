@@ -13,6 +13,7 @@ pass:
 gui:
   title: '<glyph:bitmap><glyph:battle_pass>'
   premium-title: '<glyph:bitmap><glyph:battle_pass_premium>'
+  reward-title: '<glyph:bitmap><glyph:reward_gui>'
 
 items:
   type: nexo

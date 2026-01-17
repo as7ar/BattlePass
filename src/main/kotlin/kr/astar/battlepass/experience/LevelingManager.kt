@@ -76,15 +76,18 @@ object LevelingManager {
         val np= numberOfPassPageGenerator(offlinePlayer)
         if (page<np) return rewardSlotArray
         if (page>np) return arrayOf()
-        //todo: complete
-        return rewardSlotArray
+
+        val lvSlots=getLv(offlinePlayer) % rewardSlotArray.size
+        val slotArray= rewardSlotArray.take(lvSlots).toTypedArray()
+
+        return slotArray
     }
 
     fun numberOfPassPageGenerator(offlinePlayer: OfflinePlayer): Int {
         val lv=getLv(offlinePlayer)
-        var page=0
-        page+=lv/9
-        if (lv%9!=0) page+=1
+        var page = 0
+        page += lv / rewardSlotArray.size
+        if (lv%rewardSlotArray.size != 0) page+=1
         return page
     }
 }
