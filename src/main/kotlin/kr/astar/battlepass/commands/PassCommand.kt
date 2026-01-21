@@ -3,25 +3,19 @@ package kr.astar.battlepass.commands
 import kr.astar.battlepass.BattlePass
 import kr.astar.battlepass.commands.handler.PassCommandHandler
 import kr.astar.battlepass.data.PassType
-import kr.astar.battlepass.data.config
-import kr.astar.battlepass.experience.LevelingManager
 import kr.astar.battlepass.gui.PassGUI
-import kr.astar.battlepass.gui.PremiumPassGUI
 import kr.astar.battlepass.gui.RewardGUI
-import kr.astar.battlepass.items.ItemManager
-import kr.astar.battlepass.utils.toComponent
-import kr.astar.battlepass.utils.toMiniMessage
-import net.kyori.adventure.text.Component
+import kr.astar.battlepass.util.toComponent
+import kr.astar.battlepass.util.toMiniMessage
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import java.util.logging.Level
 
 class PassCommand: BaseCommand(
     BattlePass.configData.command.name, BattlePass.configData.command.aliases,
     BattlePass.configData.command.description, "astar.pass.command"
 ) {
-    private val plugin= BattlePass.plugin
+    private val plugin = BattlePass.plugin
     private var configData = BattlePass.configData
 
     private val premiumPermission = "astar.pass.premium"

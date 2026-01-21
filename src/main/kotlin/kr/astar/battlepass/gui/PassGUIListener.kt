@@ -5,7 +5,7 @@ import com.google.gson.JsonObject
 import kr.astar.battlepass.commands.handler.PassCommandHandler
 import kr.astar.battlepass.data.UserData
 import kr.astar.battlepass.experience.LevelingManager
-import kr.astar.battlepass.items.ItemManager
+import kr.astar.battlepass.item.ItemManager
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

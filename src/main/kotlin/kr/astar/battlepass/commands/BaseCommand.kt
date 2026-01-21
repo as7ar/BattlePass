@@ -13,7 +13,7 @@ abstract class BaseCommand(
     init {
         this.aliases = aliases
         this.setDescription(description)
-        this.permission=permission
+        this.permission = permission
 
         try {
             Bukkit.getServer().commandMap.register(name, this)

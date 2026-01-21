@@ -34,12 +34,12 @@ class BattlePass : JavaPlugin() {
     fun reloadConfigData() {
         configData = config {
             gui {
-                title = config.getString("gui.title") ?: ""
-                premiumTitle = config.getString("gui.premium-title") ?: ""
-                rewardTitle = config.getString("gui.reward-title") ?: ""
+                title = config.getString("settings.gui.title") ?: ""
+                premiumTitle = config.getString("settings.gui.premium-title") ?: ""
+                rewardTitle = config.getString("settings.gui.reward-title") ?: ""
             }
             items {
-                type = config.getString("items.type") ?: ""
+                type = config.getString("settings.item-plugin") ?: ""
             }
             command {
                 name = config.getString("commands.name") ?: ""
@@ -47,8 +47,8 @@ class BattlePass : JavaPlugin() {
                 description = config.getString("commands.description") ?: ""
             }
             pass {
-                levelingExp = config.getInt("pass.leveling-exp")
-                maxLevel = config.getInt("pass.max-level")
+                levelingExp = config.getInt("settings.pass.leveling-exp")
+                maxLevel = config.getInt("settings.pass.max-level")
             }
         }
     }

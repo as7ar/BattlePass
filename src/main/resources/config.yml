@@ -6,14 +6,14 @@ commands:
     - 배틀패스
   description: 배틀패스 기본 명령어
 
-pass:
-  leveling-exp: 100
-  max-level: 18
+settings:
+  pass:
+    leveling-exp: 100
+    max-level: 18
 
-gui:
-  title: '<glyph:bitmap><glyph:battle_pass>'
-  premium-title: '<glyph:bitmap><glyph:battle_pass_premium>'
-  reward-title: '<glyph:bitmap><glyph:reward_gui>'
+  gui:
+    title: '<glyph:bitmap><glyph:battle_pass>'
+    premium-title: '<glyph:bitmap><glyph:battle_pass_premium>'
+    reward-title: '<glyph:bitmap><glyph:reward_gui>'
 
-items:
-  type: nexo
+  item-plugin: nexo

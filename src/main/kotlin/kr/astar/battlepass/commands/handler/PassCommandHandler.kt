@@ -7,21 +7,22 @@ import kr.astar.battlepass.experience.LevelingManager
 import kr.astar.battlepass.gui.PassGUI
 import kr.astar.battlepass.gui.PremiumPassGUI
 import kr.astar.battlepass.gui.RewardGUI
-import kr.astar.battlepass.items.ItemManager
-import kr.astar.battlepass.utils.toMiniMessage
+import kr.astar.battlepass.item.ItemManager
+import kr.astar.battlepass.util.toMiniMessage
 import net.kyori.adventure.text.Component
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 class PassCommandHandler {
-    private val plugin= BattlePass.plugin
+    private val plugin = BattlePass.plugin
     private val configData = BattlePass.configData
 
     private val expSlotArray = (9..17).toList().toTypedArray()
     fun openPass(player: Player, type: PassType= PassType.DEFAULT) {
-        val info = ItemManager.items.getInfo().apply {
+        val info = ItemManager.items.info.apply {
             val meta = this?.itemMeta ?: return@apply
             meta.displayName("<bold><aqua>정보".toMiniMessage())
+
             val lore = meta.lore() ?: mutableListOf<Component>()
             lore.add("<gold>플레이어: <white>${player.name} ( <aqua>Lv.<white>${
                 LevelingManager.getLv(player, type)
@@ -30,6 +31,7 @@ class PassCommandHandler {
                 configData.pass.levelingExp-LevelingManager.getExp(player, type)
             }".toMiniMessage())
             meta.lore(lore)
+
             this.itemMeta = meta
         }
 
@@ -55,14 +57,14 @@ class PassCommandHandler {
             setItem(40, info) // info
             expSlots.forEach { // exp
                 setItem(it, when (it) {
-                    9 -> ItemManager.items.getExpLeft()
-                    17 -> ItemManager.items.getExpRight()
-                    else -> ItemManager.items.getExpMiddle()
+                    9 -> ItemManager.items.expLeft
+                    17 -> ItemManager.items.expRight
+                    else -> ItemManager.items.expMiddle
                 })
             }
-            rewardSlotArray.forEach { setItem(it, ItemManager.items.getLocked()) }
-            rewardSlots.forEach { setItem(it, ItemManager.items.getUnlocked()) }
-            rewardSlotArray.take(claimed%9).forEach { setItem(it, ItemManager.items.getClaimed()) }
+            rewardSlotArray.forEach { setItem(it, ItemManager.items.locked) }
+            rewardSlots.forEach { setItem(it, ItemManager.items.unlocked) }
+            rewardSlotArray.take(claimed%9).forEach { setItem(it, ItemManager.items.claimed) }
         })
     }
 
