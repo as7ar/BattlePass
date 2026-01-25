@@ -8,8 +8,8 @@ import java.util.*
 class UserData(
     val uuid: UUID
 ) {
-    private val plugin= BattlePass.plugin
-    private val file= File(plugin.dataFolder, "/userdata/${uuid}.yml")
+    private val plugin = BattlePass.plugin
+    private val file = File(plugin.dataFolder, "/userdata/${uuid}.yml")
     var config = YamlConfiguration.loadConfiguration(file)
 
     fun reload() {

@@ -1,4 +1,4 @@
-package kr.astar.battlepass.utils
+package kr.astar.battlepass.util
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage

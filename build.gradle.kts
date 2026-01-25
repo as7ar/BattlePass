@@ -13,6 +13,7 @@ repositories {
     }
     maven("https://repo.nexomc.com/releases")
     maven("https://maven.devs.beer/")
+    maven("https://repo.momirealms.net/releases/")
 }
 
 dependencies {
@@ -21,6 +22,8 @@ dependencies {
 
     compileOnly("com.nexomc:nexo:${rootProject.properties["nexo_version"]}") { exclude("*") }
     compileOnly("dev.lone:api-itemsadder:${rootProject.properties["itemsadder_version"]}")
+    compileOnly("net.momirealms:craft-engine-core:${rootProject.properties["craft_engine_version"]}")
+    compileOnly("net.momirealms:craft-engine-bukkit:${rootProject.properties["craft_engine_version"]}")
 }
 
 val targetJavaVersion = 21
