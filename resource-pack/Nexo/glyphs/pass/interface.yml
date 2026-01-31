@@ -1,0 +1,20 @@
+battle_pass:
+  texture: font/pass_gui
+  ascent: 47
+  height: 256
+  char: 
+bitmap:
+  texture: font/space
+  ascent: -32768
+  height: -18
+  char: 
+battle_pass_premium:
+  texture: font/premium_pass_gui
+  ascent: 47
+  height: 256
+  char: 
+reward_gui:
+  texture: font/reward_gui
+  ascent: 47
+  height: 256
+  char: 

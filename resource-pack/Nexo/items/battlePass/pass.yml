@@ -1,0 +1,54 @@
+exp-left:
+  itemname: 레벨 경험치
+  material: PAPER
+  Pack:
+    model: item/exp-left
+    custom_model_data: 1
+exp-middle:
+  itemname: 레벨 경험치
+  material: PAPER
+  Pack:
+    model: item/exp-middle
+    custom_model_data: 2
+exp-right:
+  itemname: 레벨 경험치
+  material: PAPER
+  Pack:
+    model: item/exp-right
+    custom_model_data: 3
+locked:
+  itemname: 잠김
+  material: PAPER
+  Pack:
+    model: item/locked
+    custom_model_data: 4
+unlocked:
+  itemname: 잠금 해제됨
+  material: PAPER
+  Pack:
+    model: item/unlocked
+    custom_model_data: 5
+previous:
+  itemname: 이전
+  material: PAPER
+  Pack:
+    model: item/previous-arrow
+    custom_model_data: 6
+next:
+  itemname: 다음
+  material: PAPER
+  Pack:
+    model: item/next-arrow
+    custom_model_data: 7
+info_pass:
+  itemname: 정보
+  material: PAPER
+  Pack:
+    model: item/info
+    custom_model_data: 8
+reward_claimed:
+  itemname: 수령함
+  material: PAPER
+  Pack:
+    model: item/claimed
+    custom_model_data: 9
