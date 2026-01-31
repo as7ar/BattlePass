@@ -20,7 +20,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-    compileOnly("com.nexomc:nexo:${rootProject.properties["nexo_version"]}") { exclude("*") }
+    compileOnly("com.nexomc:nexo:${rootProject.properties["nexo_version"]}")
     compileOnly("dev.lone:api-itemsadder:${rootProject.properties["itemsadder_version"]}")
     compileOnly("net.momirealms:craft-engine-core:${rootProject.properties["craft_engine_version"]}")
     compileOnly("net.momirealms:craft-engine-bukkit:${rootProject.properties["craft_engine_version"]}")

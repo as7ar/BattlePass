@@ -18,6 +18,7 @@ class BattlePass : JavaPlugin() {
         plugin = this
 
         saveResource("reward.json", false)
+        saveResource("reward-premium.json", false)
         saveDefaultConfig()
         reloadConfigData()
     }

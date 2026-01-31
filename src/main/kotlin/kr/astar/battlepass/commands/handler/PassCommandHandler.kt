@@ -24,6 +24,7 @@ class PassCommandHandler {
             meta.displayName("<bold><aqua>정보".toMiniMessage())
 
             val lore = meta.lore() ?: mutableListOf<Component>()
+            lore.clear()
             lore.add("<gold>플레이어: <white>${player.name} ( <aqua>Lv.<white>${
                 LevelingManager.getLv(player, type)
             } )".toMiniMessage())
@@ -51,7 +52,7 @@ class PassCommandHandler {
             type
         )
 
-        val claimed= UserData(player.uniqueId).config.getInt("${player.uniqueId}.claimed-lv")
+        val claimed= UserData(player.uniqueId).config.getInt("${player.uniqueId}.${type.name.lowercase()}.claimed-lv")
 
         player.openInventory(inv.apply {
             setItem(40, info) // info

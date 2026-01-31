@@ -1,9 +1,0 @@
-info:
-  namespace: "pass"
-font_images:
-  battle_pass_default: # :offset_-16::battle_pass:
-   path: "font/gui/pass_gui.png"
-   y_position: 47
-  battle_pass_premium:
-   path:  "font/gui/pass_gui.png"
-   y_position: 47

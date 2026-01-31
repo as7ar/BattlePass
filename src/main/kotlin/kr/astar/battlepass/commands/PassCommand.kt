@@ -4,6 +4,7 @@ import kr.astar.battlepass.BattlePass
 import kr.astar.battlepass.commands.handler.PassCommandHandler
 import kr.astar.battlepass.data.PassType
 import kr.astar.battlepass.gui.PassGUI
+import kr.astar.battlepass.gui.PremiumRewardGUI
 import kr.astar.battlepass.gui.RewardGUI
 import kr.astar.battlepass.util.toComponent
 import kr.astar.battlepass.util.toMiniMessage
@@ -46,7 +47,11 @@ class PassCommand: BaseCommand(
                 }
 
                 if (args[1]=="패스보상") {
-                    sender.openInventory(RewardGUI().inventory)
+                    val type= if (args[2]=="프리미엄") PassType.PREMIUM else PassType.DEFAULT
+                    sender.openInventory(
+                        if (type== PassType.DEFAULT) RewardGUI().inventory
+                        else { PremiumRewardGUI().inventory }
+                    )
                 }
 
                 if (args[1]=="경험치") {
@@ -87,6 +92,12 @@ class PassCommand: BaseCommand(
         if (args.size==3 && args[1]=="경험치") {
             tab.addAll(listOf(
                 "추가", "제거"
+            ))
+        }
+
+        if (args.size==3 && args[1]=="패스보상") {
+            tab.addAll(listOf(
+                "일반", "프리미엄"
             ))
         }
 

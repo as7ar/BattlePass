@@ -7,12 +7,8 @@ import net.momirealms.craftengine.bukkit.api.CraftEngineItems
 import net.momirealms.craftengine.core.util.Key
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder
 import java.util.EnumMap
-
-/* 나중에 갈아 엎을때 어케함
-* 아이템은 한번 던져질거 같은데
-* Folra 제작 하시져 시간되시면 저도 투입함 */
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder
 
 object ItemManager {
     private val plugin = BattlePass.plugin
