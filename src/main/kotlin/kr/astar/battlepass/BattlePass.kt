@@ -11,7 +11,21 @@ class BattlePass : JavaPlugin() {
     companion object {
         lateinit var plugin: BattlePass
             private set
-        lateinit var configData: ConfigData
+        val configData: ConfigData
+            get() = config {
+                gui {
+                    title = BattlePass.plugin.config.getString("settings.gui.title") ?: ""
+                    premiumTitle = BattlePass.plugin.config.getString("settings.gui.premium-title") ?: ""
+                    rewardTitle = BattlePass.plugin.config.getString("settings.gui.reward-title") ?: ""
+                }
+                items {
+                    type = BattlePass.plugin.config.getString("settings.item-plugin") ?: ""
+                }
+                pass {
+                    levelingExp = BattlePass.plugin.config.getInt("settings.pass.leveling-exp")
+                    maxLevel = BattlePass.plugin.config.getInt("settings.pass.max-level")
+                }
+            }
     }
 
     override fun onLoad() {
@@ -20,37 +34,12 @@ class BattlePass : JavaPlugin() {
         saveResource("reward.json", false)
         saveResource("reward-premium.json", false)
         saveDefaultConfig()
-        reloadConfigData()
     }
 
     override fun onEnable() {
 
         server.pluginManager.registerEvents(PassGUIListener(), this)
 
-        PassCommand().register(
-            this.server.commandMap
-        )
-    }
-
-    fun reloadConfigData() {
-        configData = config {
-            gui {
-                title = config.getString("settings.gui.title") ?: ""
-                premiumTitle = config.getString("settings.gui.premium-title") ?: ""
-                rewardTitle = config.getString("settings.gui.reward-title") ?: ""
-            }
-            items {
-                type = config.getString("settings.item-plugin") ?: ""
-            }
-            command {
-                name = config.getString("commands.name") ?: ""
-                aliases = config.getStringList("commands.aliases")
-                description = config.getString("commands.description") ?: ""
-            }
-            pass {
-                levelingExp = config.getInt("settings.pass.leveling-exp")
-                maxLevel = config.getInt("settings.pass.max-level")
-            }
-        }
+        PassCommand().register(this.server.commandMap)
     }
 }

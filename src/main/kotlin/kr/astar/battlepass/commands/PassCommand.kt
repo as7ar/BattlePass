@@ -3,6 +3,7 @@ package kr.astar.battlepass.commands
 import kr.astar.battlepass.BattlePass
 import kr.astar.battlepass.commands.handler.PassCommandHandler
 import kr.astar.battlepass.data.PassType
+import kr.astar.battlepass.data.config
 import kr.astar.battlepass.gui.PassGUI
 import kr.astar.battlepass.gui.PremiumRewardGUI
 import kr.astar.battlepass.gui.RewardGUI
@@ -13,11 +14,11 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PassCommand: BaseCommand(
-    BattlePass.configData.command.name, BattlePass.configData.command.aliases,
-    BattlePass.configData.command.description, "astar.pass.command"
+    BattlePass.plugin.config.getString("commands.name") ?: "패스",
+    BattlePass.plugin.config.getStringList("commands.aliases"),
+    BattlePass.plugin.config.getString("commands.description") ?: "", "astar.pass.command"
 ) {
     private val plugin = BattlePass.plugin
-    private var configData = BattlePass.configData
 
     private val premiumPermission = "astar.pass.premium"
     private val adminPermission = "astar.pass.admin"
@@ -43,7 +44,6 @@ class PassCommand: BaseCommand(
             if (args[0]=="설정") {
                 if (args[1]=="리로드") {
                     plugin.reloadConfig()
-                    plugin.reloadConfigData()
                 }
 
                 if (args[1]=="패스보상") {

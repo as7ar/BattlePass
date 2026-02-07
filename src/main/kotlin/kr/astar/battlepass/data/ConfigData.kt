@@ -7,7 +7,6 @@ package kr.astar.battlepass.data
 data class ConfigData(
     val gui: GUIData,
     val items: ItemsData,
-    val command: CommandData,
     val pass: PassData
 )
 
@@ -19,12 +18,6 @@ data class GUIData(
 
 data class ItemsData(
     val type: String
-)
-
-data class CommandData(
-    val name: String,
-    val aliases: List<String>,
-    val description: String
 )
 
 data class PassData(
@@ -47,7 +40,6 @@ annotation class ConfigDsl
 class ConfigBuilder {
     private var guiBuilder: GUIBuilder? = null
     private var itemsBuilder: ItemsBuilder? = null
-    private var commandBuilder: CommandBuilder? = null
     private var passBuilder: PassBuilder? = null
 
     fun gui(block: GUIBuilder.() -> Unit) {
@@ -58,10 +50,6 @@ class ConfigBuilder {
         itemsBuilder = ItemsBuilder().apply(block)
     }
 
-    fun command(block: CommandBuilder.() -> Unit) {
-        commandBuilder = CommandBuilder().apply(block)
-    }
-
     fun pass(block: PassBuilder.() -> Unit) {
         passBuilder = PassBuilder().apply(block)
     }
@@ -69,9 +57,8 @@ class ConfigBuilder {
     fun build(): ConfigData {
         val gui = guiBuilder?.build() ?: error("gui is required")
         val items = itemsBuilder?.build() ?: error("items is required")
-        val command = commandBuilder?.build() ?: error("command is required")
         val pass = passBuilder?.build() ?: error("pass is required")
-        return ConfigData(gui, items, command, pass)
+        return ConfigData(gui, items, pass)
     }
 }
 
@@ -101,22 +88,6 @@ class ItemsBuilder {
     fun build(): ItemsData {
         if (type.isBlank()) error("items.type is blank")
         return ItemsData(type)
-    }
-}
-
-/* =========================
-   Command
-   ========================= */
-
-@ConfigDsl
-class CommandBuilder {
-    var name: String = ""
-    var aliases: List<String> = emptyList()
-    var description: String = ""
-
-    fun build(): CommandData {
-        if (name.isBlank()) error("command.name is blank")
-        return CommandData(name, aliases, description)
     }
 }
 
