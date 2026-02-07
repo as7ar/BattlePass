@@ -73,30 +73,37 @@ class PassCommandHandler {
         sender: Player,
         target: OfflinePlayer,
         action: String,
-        amount: Int
+        amount: Int,
+        type: PassType
     ) {
         if (amount <= 0) return
 
         when (action) {
             "추가" -> {
-                LevelingManager.addExp(target, amount)
+                LevelingManager.addExp(target, amount, type)
                 sender.sendMessage(
-                    "플레이어 <green>${target.name}<white>에게 <aqua>${amount}<white>만큼의 경험치를 지급했습니다.".toMiniMessage()
+                    "플레이어 <green>${target.name}<white>에게 ${
+                        if (type== PassType.PREMIUM) "<aqua>프리미엄" else { "<gray>일반" }
+                    } <gray>패스 <aqua>${amount}<white>만큼의 경험치를 지급했습니다.".toMiniMessage()
                 )
             }
 
             "제거" -> {
-                LevelingManager.takeExp(target, amount)
+                LevelingManager.takeExp(target, amount, type)
                 sender.sendMessage(
-                    "플레이어 <red>${target.name}<white>에게서 <aqua>${amount}<white>만큼의 경험치를 없앴습니다.".toMiniMessage()
+                    "플레이어 <red>${target.name}<white>에게서 ${
+                        if (type== PassType.PREMIUM) "<aqua>프리미엄" else { "<gray>일반" }
+                    } <aqua>${amount}<white>만큼의 경험치를 없앴습니다.".toMiniMessage()
                 )
             }
 
             "설정" -> {
-                LevelingManager.takeExp(target, LevelingManager.getExp(target))
-                LevelingManager.addExp(target, amount)
+                LevelingManager.takeExp(target, LevelingManager.getExp(target), type)
+                LevelingManager.addExp(target, amount, type)
                 sender.sendMessage(
-                    "플레이어 <yellow>${target.name}<white>의 경험치를 <aqua>${amount}<white> 로 설정했습니다.".toMiniMessage()
+                    "플레이어 <yellow>${target.name}<white>의 ${
+                        if (type== PassType.PREMIUM) "<aqua>프리미엄" else { "<gray>일반" }
+                    } 경험치를 <aqua>${amount}<white> 로 설정했습니다.".toMiniMessage()
                 )
             }
         }

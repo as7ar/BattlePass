@@ -60,7 +60,7 @@ class PassCommand: BaseCommand(
                         args[2], args[4].toIntOrNull() ?: run {
                             sender.sendMessage("<red>유효하지 않은 숫자를 입력했습니다".toMiniMessage())
                             return true
-                        }
+                        }, if (args[5]=="프리미엄") PassType.PREMIUM else PassType.DEFAULT
                     )
                 }
             }
@@ -108,6 +108,12 @@ class PassCommand: BaseCommand(
         if (args.size==5 && args[1]=="경험치") {
             tab.addAll(listOf(
                 "숫자"
+            ))
+        }
+
+        if (args.size==6 && args[1]=="경험치") {
+            tab.addAll(listOf(
+                "일반", "프리미엄"
             ))
         }
 
